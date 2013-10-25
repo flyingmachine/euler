@@ -28,6 +28,7 @@
   (map first
        (iterate (fn [primes-acc]
                   (let [largest (first primes-acc)]
-                    (take 1 (drop-while #(some (partial multiple-of? %) primes-acc)
-                                       (iterate inc (inc largest))))))
+                    (take 1 (drop-while
+                             #(multiple-of-some? % primes-acc)
+                             (iterate inc (inc largest))))))
                 '(2))))
