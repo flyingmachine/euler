@@ -28,7 +28,24 @@
       (recur (inc i) (inc sum)))))
 
 ;; problem 2
-(def fib (map first (iterate (fn [[a b]] [b (+ a b)]) [0 1])))
+(def fib
+  (map first
+       (iterate (fn [[a b]] [b (+ a b)])
+                [0 1])))
+
+(defn fib 
+  [num1 num2 sum limit times-run]
+  (let [updated-sum (if (= sum 0)
+                      (+ sum num2)
+                      (if (= (rem num2 2) 0)  
+                        (+ sum num2)))]
+    (if (< num2 limit)
+      (fib num2 (+ num1 num2) updated-sum limit (inc times-run))
+      (println (str "and the final sum is: " updated-sum)))))
+
+
+
+
 (defn even-fib-sum
   [limit]
   (->> fib
@@ -114,3 +131,7 @@
 (last (take 10001 primes))
 
 ;; problem 8
+
+;; problem 10
+
+;; problem 11
