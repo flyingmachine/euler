@@ -1,4 +1,5 @@
-(ns project-euler.core)
+(ns project-euler.core
+  (:require [clojure.math.numeric-tower :as math]))
 
 (defn multiple-of?
   [x y]
@@ -131,6 +132,45 @@
 (last (take 10001 primes))
 
 ;; problem 8
+
+(let [n 4312751257120571451750]
+  (apply
+   max
+   (for [x (partition 5 1 (map #(- (int %) 48)
+                               (seq (str n))))]
+     (reduce * x))))>
+
+
+(reduce (fn [result pair]
+          (assoc result (first pair) (second pair)))
+        {}
+        [[:a 1] [:b 2]])
+
+
+(reduce + [1 2 3 4])
+(+ (+ (+ 1 2) 3) 4)
+(+ 1 2 3 4)
+
+(apply max [1 2 3 4 5])
+(max 1 2 3 4 5)
+
+(apply re-find [#"test" "test-thing"])
+
+
+
+(reduce (fn [result pair]
+          (assoc result (first pair) (second pair)))
+        {}
+        [[:a 1] [:b 2]])
+
+;; problem 9
+(let [triplet (for [a (range 1 1000)
+                    b (range 1 1000)
+                    :when (< (+ a b) 1000)]
+                (let [c (- 1000 (+ a b))]
+                  (if (= (+ (math/expt a 2) (math/expt b 2)) (math/expt c 2))
+                    [a b c])))]
+  (some identity triplet))
 
 ;; problem 10
 
