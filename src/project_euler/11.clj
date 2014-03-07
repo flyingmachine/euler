@@ -34,12 +34,19 @@
        (map #(get % col))
        (take 4)))
 
-(defn diagonally-adjacent
-  [grid row col]
-  (filter identity
+(defn diagonal
+  [step-fn]
+  (fn [grid row col]
+    (filter identity
           (map (fn [i j]
                  (reduce get grid [i j]))
-               (range row (+ row 4)) (range col (+ col 4)))))
+               (take 4 (iterate step-fn row))
+               (take 4 (iterate step-fn col))))))
+
+(def diagonally-forward (diagonal inc))
+(def diagonally-backward (diagonal inc))
+
+
 
 (defn adjacent-groups
   [grid row col]
@@ -48,14 +55,16 @@
    (map #(% grid row col)
         [horizontally-adjacent
          vertically-adjacent
-         diagonally-adjacent])))
+         diagonally-forward
+         diagonally-backward])))
+
+(defn safe-max
+  [els]
+  (reduce max 0 els))
 
 (defn max-adjacent
   [grid]
-  (reduce max
-          0
-          (for [i (range 0 20)
-                j (range 0 20)]
-            (reduce max
-                    0
-                    (map #(apply * %) (adjacent-groups grid i j))))))
+  (safe-max
+   (for [i (range 0 20)
+         j (range 0 20)]
+     (safe-max (map #(apply * %) (adjacent-groups grid i j))))))
