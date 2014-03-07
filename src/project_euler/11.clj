@@ -38,15 +38,12 @@
   [step-fn]
   (fn [grid row col]
     (filter identity
-          (map (fn [i j]
-                 (reduce get grid [i j]))
+          (map (fn [i j] (get-in grid [i j]))
                (take 4 (iterate step-fn row))
                (take 4 (iterate step-fn col))))))
 
 (def diagonally-forward (diagonal inc))
 (def diagonally-backward (diagonal inc))
-
-
 
 (defn adjacent-groups
   [grid row col]
